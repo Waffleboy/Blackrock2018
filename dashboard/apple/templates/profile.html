@@ -1,0 +1,133 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+  <div class="x_panel">
+    <div class="x_content">
+     <div style="text-align: center; margin-bottom: 17px">
+      <img src={{profile_pic}} alt="..." class="img-circle profile_img">
+    </div>
+    
+
+    <h3 class="name" style="text-align: center"> {{ screen_name }} </h3>
+
+    <div class="flex">
+      <ul class="list-inline count2">
+        <li>
+          <h3>{{followers}}</h3>
+          <span>Followers</span>
+        </li>
+        <li>
+          <h3>{{friends}}</h3>
+          <span>Followings</span>
+        </li>
+      </ul>
+    </div>
+    <div class = "flex">
+     <ul class="list-inline count3">
+       <li>
+        <h3> {{age}} </h3>
+        <span> Age Range </span>
+      </li>
+      <li>
+        <h3> {{gender}} </h3>
+        <span> Gender </span>
+      </li>
+
+      <li>
+        <h3> {{ interest }} </h3>
+        <span> Interest </span>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>
+</div>
+
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2>Notable Accounts</h2>
+      <ul class="nav navbar-right panel_toolbox">
+        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+        </li>
+        <li><a class="close-link"><i class="fa fa-close"></i></a>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <table id="datatable" class="table table-striped table-bordered">
+     <!--   <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%"> -->
+      <thead>
+        <tr>
+          <th>Screen Name</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entry in notable_accounts %}
+        <tr>
+          <td> {{entry.0}} </td>
+          <td> {{entry.1}} </td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+    
+    
+  </div>
+</div>
+
+{% if redirected == 0 %}
+<div class="col-md-12 col-sm-12 col-xs-12">
+  <div class="x_panel">
+   <div class="x_title">
+    <h2> Tweet </h2>
+    <div class="clearfix"></div>
+  </div>
+
+  <div class="x_content">
+   <p style="font-size:20px">{{tweet}}</p>
+ </div>
+
+ <div class="x_title">
+   <h2> Reply </h2>
+   <div class="clearfix"></div>
+ </div>
+
+ <label for="reply">Your reply (280 chars max) :</label>
+ <form action="/profile" method="POST">
+   {% csrf_token %}
+   <input type="hidden" name="tweet_id" value="{{tweet_id}}"/>
+   <input type="hidden" name="screen_name" value="{{screen_name}}"/>
+   {{ form.reply }}
+   <br>
+   <button type="submit" class="btn btn-success">Post reply</button>
+ </form>
+</div>
+</div>
+<div class = "clearfix"></div>
+
+{% else %}
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2> Tweets </h2>
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+      {% for date, tweet in tweets.items %}
+      <p> <strong>{{date}}:</strong> {{tweet}} </p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+{% endif %}
+{% endblock %}

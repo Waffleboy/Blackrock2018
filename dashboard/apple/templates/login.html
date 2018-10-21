@@ -1,0 +1,42 @@
+
+<link rel="stylesheet" href="/static/css/login.css">
+<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+
+{% block content %}
+	
+	<div class="pen-title">
+		<img src="/static/images/blackrock.png" />
+		<h3>Social Media Signal Generator</h3>
+	</div>
+
+	<!-- Form Module-->
+	<div class="module form-module">
+		<div class="toggle">
+			<!-- <i class="fa fa-times fa-pencil"></i> -->
+		</div>
+		<div class="form">
+			<h2>Login to your account</h2>
+			<form method="post" action="{% url 'login' %}">
+				{% csrf_token %}
+				<td>{{ form.username }}</td>
+				<td>{{ form.password }}</td>
+
+				{% if form.errors %}
+					<p>Your username and password didn't match. Please try again.</p>
+				{% endif %}
+
+				{% if next %}
+					{% if user.is_authenticated %}
+						<p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
+					{% else %}
+						<p>Please login to see this page.</p>
+					{% endif %}
+				{% endif %}
+
+				<button>Login</button>
+				<input type="hidden" name="next" value="{{ next }}" />
+			</form>
+		</div>
+	</div>
+
+{% endblock %}
